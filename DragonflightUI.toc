@@ -1,10 +1,8 @@
-## Interface: 30402
-## Interface-Wrath: 30402
-## Interface-Classic: 11403
+## Interface: 30300
 ## Title: DragonflightUI
-## Notes: 
-## Author: Karl-Heinz Schneider
-## X-Website: https://github.com/Karl-HeinzSchneider/WoW-DragonflightUI
+## Notes:
+## Author: Yuritsuki
+## X-Website: https://github.com/yuritsuki/WoW-DragonflightUI
 ## X-Curse-Project-ID: 819757
 ## Version: @project-version@
 ## SavedVariables: DragonflightUIDB
