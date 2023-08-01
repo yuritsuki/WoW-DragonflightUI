@@ -1350,6 +1350,7 @@ function Module.CreatePlayerFrameTextures()
         border:SetDrawLayer('ARTWORK', 2)
         border:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\UI-HUD-UnitFrame-Player-PortraitOn-BORDER')
         border:SetPoint('LEFT', PlayerFrameHealthBar, 'LEFT', -67, -28.5)
+        border:SetDrawLayer('OVERLAY', 5)
         frame.PlayerFrameBorder = border
     end
 
@@ -1675,6 +1676,7 @@ function Module.ChangeTargetFrame()
         border:SetDrawLayer('ARTWORK', 2)
         border:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\UI-HUD-UnitFrame-Target-PortraitOn-BORDER')
         border:SetPoint('LEFT', TargetFrame, 'LEFT', 0, -32.5 + 10)
+        border:SetDrawLayer('OVERLAY', 5)
         frame.TargetFrameBorder = border
     end
 
@@ -2032,6 +2034,7 @@ function Module.ChangeFocusFrame()
         border:SetDrawLayer('ARTWORK', 2)
         border:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\UI-HUD-UnitFrame-Target-PortraitOn-BORDER')
         border:SetPoint('LEFT', FocusFrame, 'LEFT', 0, -32.5 + 10)
+        border:SetDrawLayer('OVERLAY', 5)
         frame.FocusFrameBorder = border
     end
 
