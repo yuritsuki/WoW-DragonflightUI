@@ -482,11 +482,11 @@ end
 function Module:OnEnable()
     DF:Debug(self, 'Module ' .. mName .. ' OnEnable()')
 
-    if DF.Wrath then
+    --if DF.Wrath then
         Module.Wrath()
-    else
-        Module.Era()
-    end
+    --else
+    --    Module.Era()
+    --end
     Module:SaveLocalSettings()
     Module:ApplySettings()
 end
@@ -522,7 +522,7 @@ function Module:SaveLocalSettings()
         obj.y = yOfs
     end
     -- focusframe
-    if DF.Wrath then
+    if true then
         do
             local scale = FocusFrame:GetScale()
             local point, relativeTo, relativePoint, xOfs, yOfs = FocusFrame:GetPoint(1)
@@ -572,7 +572,7 @@ function Module:ApplySettings()
         Module.ReApplyTargetFrame()
     end
 
-    if DF.Wrath then
+    if true then
         -- focus
         do
             local obj = db.focus
@@ -1357,7 +1357,7 @@ function Module.CreatePlayerFrameTextures()
         local delta = 15
         textureSmall:SetPoint('CENTER', PlayerPortrait, 'CENTER', delta, -delta - 2)
         textureSmall:SetSize(23, 23)
-        textureSmall:SetScale(1)
+        --textureSmall:SetScale(1)
         frame.PlayerFrameDeco = textureSmall
     end
 end
@@ -1404,7 +1404,7 @@ function Module.HookDrag()
         Module.db.profile.player.override = false
     end
     PlayerFrame:HookScript('OnDragStop', DragStopPlayerFrame)
-    hooksecurefunc('PlayerFrame_ResetUserPlacedPosition', DragStopPlayerFrame)
+    --hooksecurefunc('PlayerFrame_ResetUserPlacedPosition', DragStopPlayerFrame)
 
     local DragStopTargetFrame = function(self)
         Module.SaveLocalSettings()
@@ -1415,9 +1415,9 @@ function Module.HookDrag()
         Module.db.profile.target.override = false
     end
     TargetFrame:HookScript('OnDragStop', DragStopTargetFrame)
-    hooksecurefunc('TargetFrame_ResetUserPlacedPosition', DragStopTargetFrame)
+    --hooksecurefunc('TargetFrame_ResetUserPlacedPosition', DragStopTargetFrame)
 
-    if DF.Wrath then
+    if true then
         local DragStopFocusFrame = function(self)
             Module.SaveLocalSettings()
 
@@ -1469,7 +1469,7 @@ function Module.HookVertexColor()
         end
     )
 
-    if DF.Wrath then
+    if true then
         FocusFrameHealthBar:HookScript(
             'OnValueChanged',
             function(self)
@@ -1531,8 +1531,8 @@ function Module.ChangePlayerframe()
     PlayerFrameHealthBarText:SetPoint('CENTER', PlayerFrameHealthBar, 'CENTER', 0, 0)
 
     local dx = 5
-    PlayerFrameHealthBarTextLeft:SetPoint('LEFT', PlayerFrameHealthBar, 'LEFT', dx, 0)
-    PlayerFrameHealthBarTextRight:SetPoint('RIGHT', PlayerFrameHealthBar, 'RIGHT', -dx, 0)
+    --PlayerFrameHealthBarTextLeft:SetPoint('LEFT', PlayerFrameHealthBar, 'LEFT', dx, 0)
+    --PlayerFrameHealthBarTextRight:SetPoint('RIGHT', PlayerFrameHealthBar, 'RIGHT', -dx, 0)
 
     -- Mana 119,12
     PlayerFrameManaBar:ClearAllPoints()
@@ -1540,8 +1540,8 @@ function Module.ChangePlayerframe()
     PlayerFrameManaBar:SetSize(125, 8)
 
     PlayerFrameManaBarText:SetPoint('CENTER', PlayerFrameManaBar, 'CENTER', 0, 0)
-    PlayerFrameManaBarTextLeft:SetPoint('LEFT', PlayerFrameManaBar, 'LEFT', dx, 0)
-    PlayerFrameManaBarTextRight:SetPoint('RIGHT', PlayerFrameManaBar, 'RIGHT', -dx, 0)
+    --PlayerFrameManaBarTextLeft:SetPoint('LEFT', PlayerFrameManaBar, 'LEFT', dx, 0)
+    --PlayerFrameManaBarTextRight:SetPoint('RIGHT', PlayerFrameManaBar, 'RIGHT', -dx, 0)
 
     local powerType, powerTypeString = UnitPowerType('player')
 
@@ -1709,21 +1709,21 @@ function Module.ChangeTargetFrame()
     TargetFrameNameBackground:ClearAllPoints()
     TargetFrameNameBackground:SetPoint('BOTTOMLEFT', TargetFrameHealthBar, 'TOPLEFT', -2, -4 - 1)
 
-    if DF.Wrath then
+    if true then
         local dx = 5
         -- health vs mana bar
         local deltaSize = 132 - 125
 
-        TargetFrameTextureFrame.HealthBarText:SetPoint('CENTER', TargetFrameHealthBar, 'CENTER', 0, 0)
-        TargetFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', TargetFrameHealthBar, 'LEFT', dx, 0)
-        TargetFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', TargetFrameHealthBar, 'RIGHT', -dx, 0)
+        --TargetFrameTextureFrame.HealthBarText:SetPoint('CENTER', TargetFrameHealthBar, 'CENTER', 0, 0)
+        --TargetFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', TargetFrameHealthBar, 'LEFT', dx, 0)
+        --TargetFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', TargetFrameHealthBar, 'RIGHT', -dx, 0)
 
-        TargetFrameTextureFrame.ManaBarText:SetPoint('CENTER', TargetFrameManaBar, 'CENTER', -deltaSize / 2, 0)
-        TargetFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', TargetFrameManaBar, 'LEFT', dx, 0)
-        TargetFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', TargetFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
+        --TargetFrameTextureFrame.ManaBarText:SetPoint('CENTER', TargetFrameManaBar, 'CENTER', -deltaSize / 2, 0)
+       -- TargetFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', TargetFrameManaBar, 'LEFT', dx, 0)
+        --TargetFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', TargetFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
     end
 
-    if DF.Wrath then
+    if true then
         TargetFrameFlash:SetTexture('')
 
         if not frame.TargetFrameFlash then
@@ -1734,7 +1734,7 @@ function Module.ChangeTargetFrame()
             )
             flash:SetPoint('CENTER', TargetFrame, 'CENTER', 20 + CorrectionX, -20 + CorrectionY)
             flash:SetSize(256, 128)
-            flash:SetScale(1)
+            --flash:SetScale(1)
             flash:SetVertexColor(1.0, 0.0, 0.0, 1.0)
             flash:SetBlendMode('ADD')
             frame.TargetFrameFlash = flash
@@ -1852,7 +1852,7 @@ function Module.ReApplyTargetFrame()
     end
 
     TargetFrameManaBar:SetStatusBarColor(1, 1, 1, 1)
-    if DF.Wrath then
+    if true then
         TargetFrameFlash:SetTexture('')
     end
 
@@ -2055,15 +2055,15 @@ function Module.ChangeFocusFrame()
     -- health vs mana bar
     local deltaSize = 132 - 125
 
-    FocusFrameTextureFrame.HealthBarText:ClearAllPoints()
-    FocusFrameTextureFrame.HealthBarText:SetPoint('CENTER', FocusFrameHealthBar, 0, 0)
-    FocusFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', FocusFrameHealthBar, 'LEFT', dx, 0)
-    FocusFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', FocusFrameHealthBar, 'RIGHT', -dx, 0)
+    --FocusFrameTextureFrame.HealthBarText:ClearAllPoints()
+    --FocusFrameTextureFrame.HealthBarText:SetPoint('CENTER', FocusFrameHealthBar, 0, 0)
+    --FocusFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', FocusFrameHealthBar, 'LEFT', dx, 0)
+    --FocusFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', FocusFrameHealthBar, 'RIGHT', -dx, 0)
 
-    FocusFrameTextureFrame.ManaBarText:ClearAllPoints()
-    FocusFrameTextureFrame.ManaBarText:SetPoint('CENTER', FocusFrameManaBar, -deltaSize / 2, 0)
-    FocusFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', FocusFrameManaBar, 'LEFT', dx, 0)
-    FocusFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', FocusFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
+    --FocusFrameTextureFrame.ManaBarText:ClearAllPoints()
+    --FocusFrameTextureFrame.ManaBarText:SetPoint('CENTER', FocusFrameManaBar, -deltaSize / 2, 0)
+    --FocusFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', FocusFrameManaBar, 'LEFT', dx, 0)
+    --FocusFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', FocusFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
 
     -- Health 119,12
     FocusFrameHealthBar:ClearAllPoints()
@@ -2148,7 +2148,7 @@ function Module.ChangeFocusFrame()
         FocusFrameManaBarDummy:HookScript(
             'OnEnter',
             function(self)
-                if FocusFrameTextureFrame.ManaBarTextRight:IsVisible() or FocusFrameTextureFrame.ManaBarText:IsVisible() then
+                if false or FocusFrameTextureFrame.ManaBarText:IsVisible() then
                 else
                     Module.UpdateFocusText()
                     frame.FocusFrameManaBarText:Show()
@@ -2173,7 +2173,7 @@ function Module.ChangeFocusFrame()
         )
         flash:SetPoint('CENTER', FocusFrame, 'CENTER', 20 + CorrectionX, -20 + CorrectionY)
         flash:SetSize(256, 128)
-        flash:SetScale(1)
+        --flash:SetScale(1)
         flash:SetVertexColor(1.0, 0.0, 0.0, 1.0)
         flash:SetBlendMode('ADD')
         frame.FocusFrameFlash = flash
@@ -2251,8 +2251,8 @@ function Module.ChangeFocusFrame()
     end
 end
 --ChangeFocusFrame()
--- frame:RegisterUnitEvent('UNIT_POWER_UPDATE', 'focus')
--- frame:RegisterUnitEvent('UNIT_HEALTH', 'focus')
+-- frame:RegisterEvent('UNIT_POWER_UPDATE', 'focus')
+-- frame:RegisterEvent('UNIT_HEALTH', 'focus')
 -- frame:RegisterEvent('PLAYER_FOCUS_CHANGED')
 
 function Module.MoveFocusFrame(anchor, anchorOther, dx, dy)
@@ -2353,15 +2353,15 @@ function Module.UpdateFocusText()
         local max_health = UnitHealthMax('focus')
         local health = UnitHealth('focus')
 
-        frame.FocusFrameHealthBarText:SetText(health .. ' / ' .. max_health)
+        --frame.FocusFrameHealthBarText:SetText(health .. ' / ' .. max_health)
 
         local max_mana = UnitPowerMax('focus')
         local mana = UnitPower('focus')
 
         if max_mana == 0 then
-            frame.FocusFrameManaBarText:SetText('')
+            --frame.FocusFrameManaBarText:SetText('')
         else
-            frame.FocusFrameManaBarText:SetText(mana .. ' / ' .. max_mana)
+            --frame.FocusFrameManaBarText:SetText(mana .. ' / ' .. max_mana)
         end
     end
 end
@@ -2468,21 +2468,21 @@ function Module.ChangePetFrame()
     PetName:SetPoint('LEFT', PetPortrait, 'RIGHT', 1 + 1, 2 + 12 - 1)
 
     PetFrameHealthBarText:SetPoint('CENTER', PetFrameHealthBar, 'CENTER', 0, 0)
-    PetFrameHealthBarTextLeft:SetPoint('LEFT', PetFrameHealthBar, 'LEFT', dx, 0)
-    PetFrameHealthBarTextRight:SetPoint('RIGHT', PetFrameHealthBar, 'RIGHT', -dx, 0)
+    --PetFrameHealthBarTextLeft:SetPoint('LEFT', PetFrameHealthBar, 'LEFT', dx, 0)
+    --PetFrameHealthBarTextRight:SetPoint('RIGHT', PetFrameHealthBar, 'RIGHT', -dx, 0)
 
-    PetFrameHealthBarText:SetScale(newPetTextScale)
-    PetFrameHealthBarTextLeft:SetScale(newPetTextScale)
-    PetFrameHealthBarTextRight:SetScale(newPetTextScale)
+    --PetFrameHealthBarText:SetScale(newPetTextScale)
+    --PetFrameHealthBarTextLeft:SetScale(newPetTextScale)
+    --PetFrameHealthBarTextRight:SetScale(newPetTextScale)
 
     PetFrameManaBarText:SetPoint('CENTER', PetFrameManaBar, 'CENTER', deltaSize / 2, 0)
-    PetFrameManaBarTextLeft:ClearAllPoints()
-    PetFrameManaBarTextLeft:SetPoint('LEFT', PetFrameManaBar, 'LEFT', deltaSize + dx + 1.5, 0)
-    PetFrameManaBarTextRight:SetPoint('RIGHT', PetFrameManaBar, 'RIGHT', -dx, 0)
+    --PetFrameManaBarTextLeft:ClearAllPoints()
+    --PetFrameManaBarTextLeft:SetPoint('LEFT', PetFrameManaBar, 'LEFT', deltaSize + dx + 1.5, 0)
+    --PetFrameManaBarTextRight:SetPoint('RIGHT', PetFrameManaBar, 'RIGHT', -dx, 0)
 
-    PetFrameManaBarText:SetScale(newPetTextScale)
-    PetFrameManaBarTextLeft:SetScale(newPetTextScale)
-    PetFrameManaBarTextRight:SetScale(newPetTextScale)
+    --PetFrameManaBarText:SetScale(newPetTextScale)
+    --PetFrameManaBarTextLeft:SetScale(newPetTextScale)
+    --PetFrameManaBarTextRight:SetScale(newPetTextScale)
 end
 
 function Module.CreateRestFlipbook()
@@ -2494,7 +2494,7 @@ function Module.CreateRestFlipbook()
 
             local restTexture = rest:CreateTexture('DragonflightUIRestFlipbookTexture')
             restTexture:SetAllPoints()
-            restTexture:SetColorTexture(1, 1, 1, 1)
+            restTexture:SetTexture(1, 1, 1, 1)
             restTexture:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\uiunitframerestingflipbook')
 
             local animationGroup = restTexture:CreateAnimationGroup()
@@ -2519,7 +2519,7 @@ function Module.CreateRestFlipbook()
 
             local restTexture = rest:CreateTexture('DragonflightUIRestFlipbookTexture')
             restTexture:SetAllPoints()
-            restTexture:SetColorTexture(1, 1, 1, 1)
+            restTexture:SetTexture(1, 1, 1, 1)
             restTexture:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\uiunitframerestingflipbook')
             restTexture:SetTexCoord(128 / 1024, 192 / 1024, 0, 64 / 128)
 
@@ -2596,10 +2596,10 @@ function frame:OnEvent(event, arg1)
         Module.ReApplyToT()
         Module.ChangeStatusIcons()
         Module.CreateRestFlipbook()
-        if DF.Wrath then
+        --if DF.Wrath then
             Module.ChangeFocusFrame()
             Module.ChangeFocusToT()
-        end
+        --end
         Module.ChangePetFrame()
 
         Module.ApplySettings()
@@ -2623,14 +2623,14 @@ function Module.Wrath()
     frame:RegisterEvent('PLAYER_TARGET_CHANGED')
     frame:RegisterEvent('PLAYER_FOCUS_CHANGED')
 
-    frame:RegisterUnitEvent('UNIT_ENTERED_VEHICLE', 'player')
-    frame:RegisterUnitEvent('UNIT_EXITED_VEHICLE', 'player')
+    frame:RegisterEvent('UNIT_ENTERED_VEHICLE', 'player')
+    frame:RegisterEvent('UNIT_EXITED_VEHICLE', 'player')
 
     frame:RegisterEvent('UNIT_POWER_UPDATE')
     --frame:RegisterUnitEvent('UNIT_POWER_UPDATE', 'pet') -- overriden by other RegisterUnitEvent
 
-    frame:RegisterUnitEvent('UNIT_POWER_UPDATE', 'focus', 'pet')
-    frame:RegisterUnitEvent('UNIT_HEALTH', 'focus')
+    frame:RegisterEvent('UNIT_POWER_UPDATE', 'focus', 'pet')
+    frame:RegisterEvent('UNIT_HEALTH', 'focus')
 
     frame:RegisterEvent('ZONE_CHANGED')
     frame:RegisterEvent('ZONE_CHANGED_INDOORS')
@@ -2647,8 +2647,8 @@ function Module.Era()
     frame:RegisterEvent('PLAYER_TARGET_CHANGED')
     frame:RegisterEvent('PLAYER_FOCUS_CHANGED')
 
-    frame:RegisterUnitEvent('UNIT_ENTERED_VEHICLE', 'player')
-    frame:RegisterUnitEvent('UNIT_EXITED_VEHICLE', 'player')
+    frame:RegisterEvent('UNIT_ENTERED_VEHICLE', 'player')
+    frame:RegisterEvent('UNIT_EXITED_VEHICLE', 'player')
 
     frame:RegisterEvent('UNIT_POWER_UPDATE')
     --frame:RegisterUnitEvent('UNIT_POWER_UPDATE', 'pet') -- overriden by other RegisterUnitEvent
