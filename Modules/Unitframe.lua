@@ -1893,7 +1893,7 @@ function Module.ChangeToT()
 
     if not frame.TargetFrameToTBorder then
         local border = TargetFrameToTHealthBar:CreateTexture('DragonflightUITargetFrameToTBorder')
-        border:SetDrawLayer('ARTWORK', 2)
+        border:SetDrawLayer('OVERLAY', 2)
         border:SetTexture(
             'Interface\\Addons\\DragonflightUI\\Textures\\UI-HUD-UnitFrame-TargetofTarget-PortraitOn-BORDER'
         )
@@ -2400,7 +2400,7 @@ function Module.ChangePetFrame()
 
     if not frame.PetFrameBorder then
         local border = PetFrameHealthBar:CreateTexture('DragonflightUIPetFrameBorder')
-        border:SetDrawLayer('ARTWORK', 2)
+        border:SetDrawLayer('OVERLAY', 2)
         border:SetTexture(
             'Interface\\Addons\\DragonflightUI\\Textures\\UI-HUD-UnitFrame-TargetofTarget-PortraitOn-BORDER'
         )
