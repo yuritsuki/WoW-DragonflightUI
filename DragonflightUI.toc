@@ -23,8 +23,4 @@ Core.lua
 Config.lua
 
 # Modules
-Modules\Actionbar.lua
-Modules\Castbar.lua
-Modules\Chat.lua
-Modules\Minimap.lua
 Modules\Unitframe.lua

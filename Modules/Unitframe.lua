@@ -563,8 +563,12 @@ function Module:ApplySettings()
         local obj = db.target
         local objLocal = localSettings.target
         if obj.override then
+            TargetFrame:SetMovable(1)
+            TargetFrame:StartMoving()
             Module.MoveTargetFrame(obj.anchor, obj.anchorParent, obj.x, obj.y)
-            TargetFrame:SetUserPlaced(true)
+            --TargetFrame:SetUserPlaced(true)
+            TargetFrame:StopMovingOrSizing()
+            TargetFrame:SetMovable()
         else
             Module.MoveTargetFrame(objLocal.anchor, objLocal.anchorParent, objLocal.x, objLocal.y)
         end
@@ -1714,11 +1718,11 @@ function Module.ChangeTargetFrame()
         -- health vs mana bar
         local deltaSize = 132 - 125
 
-        --TargetFrameTextureFrame.HealthBarText:SetPoint('CENTER', TargetFrameHealthBar, 'CENTER', 0, 0)
+        TargetFrameTextureFrameHealthBarText:SetPoint('CENTER', TargetFrameHealthBar, 'CENTER', 0, 0)
         --TargetFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', TargetFrameHealthBar, 'LEFT', dx, 0)
         --TargetFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', TargetFrameHealthBar, 'RIGHT', -dx, 0)
 
-        --TargetFrameTextureFrame.ManaBarText:SetPoint('CENTER', TargetFrameManaBar, 'CENTER', -deltaSize / 2, 0)
+        TargetFrameTextureFrameManaBarText:SetPoint('CENTER', TargetFrameManaBar, 'CENTER', -deltaSize / 2, 0)
        -- TargetFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', TargetFrameManaBar, 'LEFT', dx, 0)
         --TargetFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', TargetFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
     end
@@ -1775,7 +1779,7 @@ function Module.ChangeTargetFrame()
         extra:SetTexture('Interface\\Addons\\DragonflightUI\\Textures\\uiunitframeboss2x')
         extra:SetTexCoord(0.001953125, 0.314453125, 0.322265625, 0.630859375)
         extra:SetSize(80, 79)
-        extra:SetDrawLayer('ARTWORK', 3)
+        extra:SetDrawLayer('OVERLAY', 3)
         extra:SetPoint('CENTER', TargetFramePortrait, 'CENTER', 4, 1)
 
         extra.UpdateStyle = function()
@@ -2055,13 +2059,13 @@ function Module.ChangeFocusFrame()
     -- health vs mana bar
     local deltaSize = 132 - 125
 
-    --FocusFrameTextureFrame.HealthBarText:ClearAllPoints()
-    --FocusFrameTextureFrame.HealthBarText:SetPoint('CENTER', FocusFrameHealthBar, 0, 0)
+    FocusFrameTextureFrameHealthBarText:ClearAllPoints()
+    FocusFrameTextureFrameHealthBarText:SetPoint('CENTER', FocusFrameHealthBar, 0, 0)
     --FocusFrameTextureFrame.HealthBarTextLeft:SetPoint('LEFT', FocusFrameHealthBar, 'LEFT', dx, 0)
     --FocusFrameTextureFrame.HealthBarTextRight:SetPoint('RIGHT', FocusFrameHealthBar, 'RIGHT', -dx, 0)
 
-    --FocusFrameTextureFrame.ManaBarText:ClearAllPoints()
-    --FocusFrameTextureFrame.ManaBarText:SetPoint('CENTER', FocusFrameManaBar, -deltaSize / 2, 0)
+    FocusFrameTextureFrameManaBarText:ClearAllPoints()
+    FocusFrameTextureFrameManaBarText:SetPoint('CENTER', FocusFrameManaBar, -deltaSize / 2, 0)
     --FocusFrameTextureFrame.ManaBarTextLeft:SetPoint('LEFT', FocusFrameManaBar, 'LEFT', dx, 0)
     --FocusFrameTextureFrame.ManaBarTextRight:SetPoint('RIGHT', FocusFrameManaBar, 'RIGHT', -deltaSize - dx, 0)
 
@@ -2106,10 +2110,7 @@ function Module.ChangeFocusFrame()
         FocusFrameHealthBarDummy:HookScript(
             'OnEnter',
             function(self)
-                if
-                    FocusFrameTextureFrame.HealthBarTextRight:IsVisible() or
-                        FocusFrameTextureFrame.HealthBarText:IsVisible()
-                 then
+                if FocusFrameTextureFrameHealthBarText:IsVisible() then
                 else
                     Module.UpdateFocusText()
                     frame.FocusFrameHealthBarText:Show()
@@ -2148,7 +2149,7 @@ function Module.ChangeFocusFrame()
         FocusFrameManaBarDummy:HookScript(
             'OnEnter',
             function(self)
-                if false or FocusFrameTextureFrame.ManaBarText:IsVisible() then
+                if false or FocusFrameTextureFrameManaBarText:IsVisible() then
                 else
                     Module.UpdateFocusText()
                     frame.FocusFrameManaBarText:Show()
@@ -2340,7 +2341,7 @@ function Module.ChangeFocusToT()
 
     FocusFrameToTManaBar:ClearAllPoints()
     FocusFrameToTManaBar:SetPoint('LEFT', FocusFrameToTPortrait, 'RIGHT', 1 - 2 - 1.5 + 1, 2 - 10 - 1)
-    FocusFrameToTManaBar:SetFrameLevel(10)
+    FocusFrameToTManaBar:SetFrameLevel(9)
     FocusFrameToTManaBar:SetSize(74, 7.5)
 
     FocusFrameToTTextureFrameName:ClearAllPoints()
