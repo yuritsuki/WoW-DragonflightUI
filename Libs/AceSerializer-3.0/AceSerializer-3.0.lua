@@ -1,17 +1,17 @@
 --- **AceSerializer-3.0** can serialize any variable (except functions or userdata) into a string format,
--- that can be send over the addon comm channel. AceSerializer was designed to keep all data intact, especially
+-- that can be send over the addon comm channel. AceSerializer was designed to keep all data intact, especially 
 -- very large numbers or floating point numbers, and table structures. The only caveat currently is, that multiple
 -- references to the same table will be send individually.
 --
--- **AceSerializer-3.0** can be embeded into your addon, either explicitly by calling AceSerializer:Embed(MyAddon) or by
+-- **AceSerializer-3.0** can be embeded into your addon, either explicitly by calling AceSerializer:Embed(MyAddon) or by 
 -- specifying it as an embeded library in your AceAddon. All functions will be available on your addon object
 -- and can be accessed directly, without having to explicitly call AceSerializer itself.\\
 -- It is recommended to embed AceSerializer, otherwise you'll have to specify a custom `self` on all calls you
 -- make into AceSerializer.
 -- @class file
 -- @name AceSerializer-3.0
--- @release $Id: AceSerializer-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
-local MAJOR,MINOR = "AceSerializer-3.0", 5
+-- @release $Id: AceSerializer-3.0.lua 877 2009-11-02 15:56:50Z nevcairiel $
+local MAJOR,MINOR = "AceSerializer-3.0", 2
 local AceSerializer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceSerializer then return end
@@ -24,11 +24,9 @@ local pairs, select, frexp = pairs, select, math.frexp
 local tconcat = table.concat
 
 -- quick copies of string representations of wonky numbers
-local inf = math.huge
-
-local serNaN  -- can't do this in 4.3, see ace3 ticket 268
-local serInf, serInfMac = "1.#INF", "inf"
-local serNegInf, serNegInfMac = "-1.#INF", "-inf"
+local serNaN = tostring(0/0)
+local serInf = tostring(1/0)
+local serNegInf = tostring(-1/0)
 
 
 -- Serialization functions
@@ -36,11 +34,9 @@ local serNegInf, serNegInfMac = "-1.#INF", "-inf"
 local function SerializeStringHelper(ch)	-- Used by SerializeValue for strings
 	-- We use \126 ("~") as an escape character for all nonprints plus a few more
 	local n = strbyte(ch)
-	if n==30 then           -- v3 / ticket 115: catch a nonprint that ends up being "~^" when encoded... DOH
-		return "\126\122"
-	elseif n<=32 then 			-- nonprint + space
+	if n<=32 then 			-- nonprint + space
 		return "\126"..strchar(n+64)
-	elseif n==94 then		-- value separator
+	elseif n==94 then		-- value separator 
 		return "\126\125"
 	elseif n==126 then		-- our own escape character
 		return "\126\124"
@@ -54,22 +50,18 @@ end
 local function SerializeValue(v, res, nres)
 	-- We use "^" as a value separator, followed by one byte for type indicator
 	local t=type(v)
-
+	
 	if t=="string" then		-- ^S = string (escaped to remove nonprints, "^"s, etc)
 		res[nres+1] = "^S"
 		res[nres+2] = gsub(v,"[%c \94\126\127]", SerializeStringHelper)
 		nres=nres+2
-
+	
 	elseif t=="number" then	-- ^N = number (just tostring()ed) or ^F (float components)
 		local str = tostring(v)
-		if tonumber(str)==v  --[[not in 4.3 or str==serNaN]] then
+		if tonumber(str)==v  or str==serNaN or str==serInf or str==serNegInf then
 			-- translates just fine, transmit as-is
 			res[nres+1] = "^N"
 			res[nres+2] = str
-			nres=nres+2
-		elseif v == inf or v == -inf then
-			res[nres+1] = "^N"
-			res[nres+2] = v == inf and serInf or serNegInf
 			nres=nres+2
 		else
 			local m,e = frexp(v)
@@ -79,17 +71,17 @@ local function SerializeValue(v, res, nres)
 			res[nres+4] = tostring(e-53)	-- adjust exponent to counteract mantissa manipulation
 			nres=nres+4
 		end
-
+	
 	elseif t=="table" then	-- ^T...^t = table (list of key,value pairs)
 		nres=nres+1
 		res[nres] = "^T"
-		for key,value in pairs(v) do
-			nres = SerializeValue(key, res, nres)
-			nres = SerializeValue(value, res, nres)
+		for k,v in pairs(v) do
+			nres = SerializeValue(k, res, nres)
+			nres = SerializeValue(v, res, nres)
 		end
 		nres=nres+1
 		res[nres] = "^t"
-
+	
 	elseif t=="boolean" then	-- ^B = true, ^b = false
 		nres=nres+1
 		if v then
@@ -97,15 +89,15 @@ local function SerializeValue(v, res, nres)
 		else
 			res[nres] = "^b"	-- false
 		end
-
+	
 	elseif t=="nil" then		-- ^Z = nil (zero, "N" was taken :P)
 		nres=nres+1
 		res[nres] = "^Z"
-
+	
 	else
 		error(MAJOR..": Cannot serialize a value of type '"..t.."'")	-- can't produce error on right level, this is wildly recursive
 	end
-
+	
 	return nres
 end
 
@@ -121,23 +113,21 @@ local serializeTbl = { "^1" }	-- "^1" = Hi, I'm data serialized by AceSerializer
 -- @return The data in its serialized form (string)
 function AceSerializer:Serialize(...)
 	local nres = 1
-
+	
 	for i=1,select("#", ...) do
 		local v = select(i, ...)
 		nres = SerializeValue(v, serializeTbl, nres)
 	end
-
+	
 	serializeTbl[nres+1] = "^^"	-- "^^" = End of serialized data
-
+	
 	return tconcat(serializeTbl, "", 1, nres+1)
 end
 
 -- Deserialization functions
 local function DeserializeStringHelper(escape)
-	if escape<"~\122" then
+	if escape<"~\123" then
 		return strchar(strbyte(escape,2,2)-64)
-	elseif escape=="~\122" then	-- v3 / ticket 115: special case encode since 30+64=94 ("^") - OOPS.
-		return "\030"
 	elseif escape=="~\123" then
 		return "\127"
 	elseif escape=="~\124" then
@@ -149,12 +139,12 @@ local function DeserializeStringHelper(escape)
 end
 
 local function DeserializeNumberHelper(number)
-	--[[ not in 4.3 if number == serNaN then
+	if number == serNaN then
 		return 0/0
-	else]]if number == serNegInf or number == serNegInfMac then
-		return -inf
-	elseif number == serInf or number == serInfMac then
-		return inf
+	elseif number == serNegInf then
+		return -1/0
+	elseif number == serInf then
+		return 1/0
 	else
 		return tonumber(number)
 	end
@@ -175,9 +165,9 @@ local function DeserializeValue(iter,single,ctl,data)
 		ctl,data = iter()
 	end
 
-	if not ctl then
+	if not ctl then 
 		error("Supplied data misses AceSerializer terminator ('^^')")
-	end
+	end	
 
 	if ctl=="^^" then
 		-- ignore extraneous data
@@ -185,7 +175,7 @@ local function DeserializeValue(iter,single,ctl,data)
 	end
 
 	local res
-
+	
 	if ctl=="^S" then
 		res = gsub(data, "~.", DeserializeStringHelper)
 	elseif ctl=="^N" then
@@ -218,7 +208,7 @@ local function DeserializeValue(iter,single,ctl,data)
 			ctl,data = iter()
 			if ctl=="^t" then break end	-- ignore ^t's data
 			k = DeserializeValue(iter,true,ctl,data)
-			if k==nil then
+			if k==nil then 
 				error("Invalid AceSerializer table format (no table end marker)")
 			end
 			ctl,data = iter()
@@ -231,7 +221,7 @@ local function DeserializeValue(iter,single,ctl,data)
 	else
 		error("Invalid AceSerializer control code '"..ctl.."'")
 	end
-
+	
 	if not single then
 		return res,DeserializeValue(iter)
 	else
