@@ -4,7 +4,7 @@
 ## Author: Yuritsuki
 ## X-Website: https://github.com/yuritsuki/WoW-DragonflightUI
 ## X-Curse-Project-ID: 819757
-## Version: @project-version@
+## Version: 0.2
 ## SavedVariables: DragonflightUIDB
 ## OptionalDeps: Ace3
 
