@@ -23,4 +23,6 @@ Core.lua
 Config.lua
 
 # Modules
+Modules\Castbar.lua
+Modules\Chat.lua
 Modules\Unitframe.lua
