@@ -26,3 +26,14 @@ Config.lua
 Modules\Castbar.lua
 Modules\Chat.lua
 Modules\Unitframe.lua
+
+# extras
+pretty_minimap\config.lua
+pretty_minimap\atlas.lua
+pretty_minimap\core.lua
+pretty_minimap\map.lua
+pretty_minimap\time.lua
+pretty_minimap\auras.lua
+pretty_minimap\init.lua
+pretty_actionbar\pretty_actionbar.xml
+pretty_lootalert\pretty_lootalert.xml
