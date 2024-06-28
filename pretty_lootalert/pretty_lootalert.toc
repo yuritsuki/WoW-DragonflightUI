@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: |cff00ffff*|r |cfffff0f5pretty_lootalert|r
+## Notes: |cffcaf7faLoot toast addon from pretty stuff|r
+## Notes-ruRU: |cffcaf7faОповещение о луте из прекрасного стаффа|r
+## Version: 2.0
+## Author: s0high
+
+pretty_lootalert.xml
